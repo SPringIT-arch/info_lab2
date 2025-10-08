@@ -11,8 +11,8 @@ def tolist(num : str) -> list:
     return list(map(int, [i for i in num]))
 
 
-def tohemmig(num : str) -> str:
-    innum = input('Число: ')
+def tohammig(num : str) -> str:
+    innum = num
     ln = len(innum)
     nxt = gen(innum)
     num = []
@@ -39,7 +39,7 @@ def tohemmig(num : str) -> str:
 
         num[(2**n) - 1] = int(flag)
 
-    return ''.join(map(str, num))
+    return ''.join(map(str, num))[:ln - 1]
 
 
 if __name__ == "__main__":
