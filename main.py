@@ -1,5 +1,17 @@
 def main():
-    pass
+    func = int(input("""Выберите функцию из предложенных
+    1) Кодирование
+    2) Декодирование
+
+Номер функции: """))
+
+    if func == 1:
+        num = input("Введите код: ")
+        print(tohammig(num))
+    elif func == 2:
+        num = input("Введите код: ")
+        decode(num)
+        
 
 
 def gen(num : str) -> str:
@@ -33,7 +45,7 @@ def tohammig(num : str) -> str:
 
     for n in range(n):
         flag = 0
-        for i in range(2**n, ln + n, 2**(n+1)):
+        for i in range(2**n, ln + 1, 2**(n+1)):
             for j in num[i - 1 : i + 2**n - 1]:
                 flag = flag ^ j
 
@@ -41,6 +53,43 @@ def tohammig(num : str) -> str:
 
     return ''.join(map(str, num))[:ln - 1]
 
+
+def decode(num : str) -> str:
+    num = tolist(num)
+    ln = len(num)
+    
+    n = 0
+
+    while ln > (2**n):
+        n += 1
+
+    r = [num[2**i - 1] for i in range(n)]
+
+    ii = [''] * len(r)
+
+    for n in range(n):
+        num[2**n - 1] = 0
+        flag = 0
+        for i in range(2**n, ln + 1, 2**(n+1)):
+            for j in num[i - 1 : i + 2**n - 1]:
+                flag = flag ^ j
+        
+        ii[n] = int(flag)
+
+    err = 0
+    for i in range(len(r)):
+        if r[i] != ii[i]:
+            err += 2**i            
+
+    if err == 0:
+        print('ошибок нет')
+        print(''.join(map(str, num)))
+    else:
+        print(f'ошибка в бите {err}')
+        num[err - 1] = int(not(num[err - 1]))
+        print(''.join(map(str, num)))
+
+    return ''.join(map(str, num))
 
 if __name__ == "__main__":
     main()
